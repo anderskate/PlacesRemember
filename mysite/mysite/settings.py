@@ -144,3 +144,8 @@ SITE_ID = 1
 LOGIN_REDIRECT_URL = '/places/'
 
 SPATIALITE_LIBRARY_PATH='mod_spatialite.so'
+
+LEAFLET_CONFIG = {
+    'DEFAULT_CENTER': (56.83, 60.59),
+    'DEFAULT_ZOOM': 12,
+}

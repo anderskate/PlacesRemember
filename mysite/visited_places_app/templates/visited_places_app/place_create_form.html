@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% load leaflet_tags %}
+<html>
+<head>
+    {% leaflet_js plugins="forms" %}
+    {% leaflet_css plugins="forms" %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title></title>
+</head>
+<body>
+
+    <form action="{% url 'create_place' %}" method="POST">
+        {% csrf_token %}
+      <fieldset>
+        <legend>Сохраните ваше любимое место</legend>
+
+        <div class="form-group">
+          <label>{{ place_form.name.label }}</label>
+          {{ place_form.name }}
+        </div>
+
+        <div class="form-group">
+          <label>{{ place_form.geom.label }}</label>
+          {{ place_form.geom }}
+        </div>
+
+        <div class="form-group">
+          <label>{{ place_form.comment.label }}</label>
+          {{ place_form.comment }}
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+      </fieldset>
+</form>
+    
+</body>
+</html>
