@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
+    'leaflet',
+    'django.contrib.gis',
 ]
 
 MIDDLEWARE = [
@@ -79,12 +81,15 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.contrib.gis.db.backends.spatialite',
+        'NAME': os.path.join(BASE_DIR, 'geodjango'),
     }
 }
+
+
 
 
 # Password validation
@@ -137,3 +142,5 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 1
 
 LOGIN_REDIRECT_URL = '/places/'
+
+SPATIALITE_LIBRARY_PATH='mod_spatialite.so'
