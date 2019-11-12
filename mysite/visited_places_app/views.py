@@ -3,16 +3,18 @@ from .models import Place
 from .forms import PlaceForm
 from django.views.generic import View
 from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-# Create your views here.
+
 def index(request):
     return render(request, 'visited_places_app/index.html')
 
 
+@login_required
 def place_detail(request, id):
     place = Place.objects.get(id=id)
-    print(dir(place.location))
-    print(place.location.geojson)
+
     return render(
         request,
         'visited_places_app/place.html',
@@ -20,10 +22,10 @@ def place_detail(request, id):
         )
 
 
+@login_required
 def places(request):
     user_places = Place.objects.filter(author=request.user)
 
-    
     return render(
         request, 
         'visited_places_app/places.html',
@@ -31,7 +33,7 @@ def places(request):
         )
 
 
-class PlaceCreate(View):
+class PlaceCreate(LoginRequiredMixin, View):
     def get(self, request):
         place_form = PlaceForm()
         print(request.user)
