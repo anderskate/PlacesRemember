@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
@@ -21,10 +21,10 @@
 
 	  <div class="collapse navbar-collapse" id="navbarColor01">
 	    <ul class="navbar-nav ml-auto">
-	      <!-- <li class="nav-item active">
-	        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+	      <li class="nav-item active">
+	        <a class="nav-link" href="{% url 'create_place' %}">Добавить воспоминание</a>
 	      </li>
-	      <li class="nav-item">
+	      <!-- <li class="nav-item">
 	        <a class="nav-link" href="#">Features</a>
 	      </li>
 	      <li class="nav-item">
@@ -35,17 +35,30 @@
 	      </li>
 
 	    </ul>
-        
 	    
 	  </div>
 	</nav>
 
-    <div class="jumbotron">
-        <p>У вас нет ни одного воспоминания.</p>
-        <p class="lead">
-            <a class="btn btn-primary btn-lg" href="{% url 'create_place' %}" role="button">Добавить воспоминание</a>
-        </p>
-    </div>
+    {% if not user_places %}
+        <div class="jumbotron">
+            <p>У вас нет ни одного воспоминания.</p>
+            <p class="lead">
+                <a class="btn btn-primary btn-lg" href="{% url 'create_place' %}" role="button">Добавить воспоминание</a>
+            </p>
+        </div>
+    {% else %}
+        <div class="list-group">
+            {% for place in user_places %}
+                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ place.name }}</h5>
+                </div>
+                </a>
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
 	
   </body>
 </html>

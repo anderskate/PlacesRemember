@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import Place
 from .forms import PlaceForm
 from django.views.generic import View
 from django.shortcuts import redirect
@@ -9,7 +10,13 @@ def index(request):
 
 
 def places(request):
-    return render(request, 'visited_places_app/places.html')
+    user_places = Place.objects.filter(author=request.user)
+    
+    return render(
+        request, 
+        'visited_places_app/places.html',
+        context={'user_places': user_places}
+        )
 
 
 class PlaceCreate(View):
