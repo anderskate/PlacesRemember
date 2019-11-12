@@ -9,8 +9,20 @@ def index(request):
     return render(request, 'visited_places_app/index.html')
 
 
+def place_detail(request, id):
+    place = Place.objects.get(id=id)
+    print(dir(place.location))
+    print(place.location.geojson)
+    return render(
+        request,
+        'visited_places_app/place.html',
+        context={'place': place}
+        )
+
+
 def places(request):
     user_places = Place.objects.filter(author=request.user)
+
     
     return render(
         request, 
