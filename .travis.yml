@@ -4,6 +4,7 @@ before_install:
   - sudo apt-get install libproj-dev proj-data proj-bin
   - sudo apt-get install libgeos-dev
   - sudo apt install sqlite3
+  - sudo apt-get install gdal-bin
   - sudo apt install libsqlite3-mod-spatialite
 
 language: python
