@@ -47,7 +47,7 @@ class TestViewsWhenUserIsAuthorized(TestCase):
             'comment': ['Test comment']
             })
 
-        self.assertEquals(response.status_code, 302)
+        self.assertEquals(response.status_code, 301)
         self.assertEquals(Place.objects.first().name, 'Test Place')
 
     def test_create_place_POST_no_data(self):
