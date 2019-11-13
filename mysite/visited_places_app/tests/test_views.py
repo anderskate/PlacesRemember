@@ -70,14 +70,14 @@ class TestViewsWhenUserIsNotAuthorized(TestCase):
 
         response = self.client.get(self.places_url)
 
-        self.assertEquals(response.status_code, 301)
+        self.assertEquals(response.status_code, 302)
         self.assertEquals(response.context, None)
 
     def test_create_place_GET(self):
 
         response = self.client.get(self.create_place_url)
 
-        self.assertEquals(response.status_code, 301)
+        self.assertEquals(response.status_code, 302)
         self.assertEquals(response.context, None)
 
     def test_create_place_POST_adds_new_place(self):
@@ -88,14 +88,14 @@ class TestViewsWhenUserIsNotAuthorized(TestCase):
             'comment': ['Test comment']
             })
 
-        self.assertEquals(response.status_code, 301)
+        self.assertEquals(response.status_code, 302)
         self.assertEquals(response.context, None)
 
     def test_create_place_POST_no_data(self):
 
         response = self.client.post(self.create_place_url)
 
-        self.assertEquals(response.status_code, 301)
+        self.assertEquals(response.status_code, 302)
         self.assertEquals(response.context, None)
 
 
