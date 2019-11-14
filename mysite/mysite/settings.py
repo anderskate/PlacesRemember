@@ -84,15 +84,16 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.spatialite',
-        'NAME': os.path.join(BASE_DIR, 'geodjango'),
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'travis_ci_test',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+        'USER': 'postgres',
+        'PASSWORD': '',
     }
 }
-
-
 
 
 # Password validation
@@ -149,7 +150,6 @@ LOGIN_REDIRECT_URL = '/places/'
 LOGOUT_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_ON_GET = True
 
-SPATIALITE_LIBRARY_PATH='mod_spatialite.so'
 
 LEAFLET_CONFIG = {
     'DEFAULT_CENTER': (56.83, 60.59),
