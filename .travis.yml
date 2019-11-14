@@ -4,14 +4,19 @@ before_install:
   - sudo apt-get install libproj-dev proj-data proj-bin
   - sudo apt-get install libgeos-dev
   - sudo apt-get install gdal-bin
-services:
-  - postgresql
+  - sudo service postgresql stop
+  - sudo apt-get --yes remove postgresql-10-postgis-2.4
+  - sudo apt install -yq --no-install-suggests --no-install-recommends postgresql-11-postgis-2.5-scripts postgresql-11 postgresql-client-11 postgresql-11-postgis-2.5
+  - sed -e 's/^port.*/port = 5432/' /etc/postgresql/11/main/postgresql.conf > postgresql.conf
+  - sudo chown postgres postgresql.conf
+  - sudo mv postgresql.conf /etc/postgresql/11/main
+  - sudo cp /etc/postgresql/{10,11}/main/pg_hba.conf
+  - sudo service postgresql restart 11
+dist: xenial
 addons:
-  postgresql: "10.11"
-
+  postgresql: "11"
 before_script:
-  - sudo apt-get -qq update
-  - sudo apt-get install -y postgresql-10.11-postgis-2.4
+  - export PATH="/usr/lib/postgresql/11/bin:$PATH"
   - psql -U postgres -c 'create database travis_ci_test'
   - psql -U postgres -d travis_ci_test -c 'create extension postgis'
 language: python
