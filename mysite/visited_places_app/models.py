@@ -2,7 +2,7 @@ from django.contrib.gis.db import models
 from django.contrib.auth.models import User
 from django.shortcuts import reverse
 
-# Create your models here.
+
 class Place(models.Model):
     name = models.CharField('Название', max_length=40, help_text='Центральный парк')
     location = models.PointField(srid=4326)

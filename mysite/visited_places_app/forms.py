@@ -2,6 +2,7 @@ from django import forms
 from .models import Place
 from leaflet.forms.fields import PointField
 
+
 class PlaceForm(forms.ModelForm):
     geom = PointField(label='Укажите место на карте')
 
