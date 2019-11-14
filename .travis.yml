@@ -1,31 +1,38 @@
-install: travis_wait mvn install
+install:
+- pip install -r requirements.txt
+- pip install coveralls
 before_install:
-  - sudo apt-get update
-  - sudo apt-get install libproj-dev proj-data proj-bin
-  - sudo apt-get install libgeos-dev
-  - sudo apt-get install gdal-bin
-  - sudo service postgresql stop
-  - sudo apt-get --yes remove postgresql-10-postgis-2.4
-  - sudo apt install -yq --no-install-suggests --no-install-recommends postgresql-11-postgis-2.5-scripts postgresql-11 postgresql-client-11 postgresql-11-postgis-2.5
-  - sed -e 's/^port.*/port = 5432/' /etc/postgresql/11/main/postgresql.conf > postgresql.conf
-  - sudo chown postgres postgresql.conf
-  - sudo mv postgresql.conf /etc/postgresql/11/main
-  - sudo cp /etc/postgresql/{10,11}/main/pg_hba.conf
-  - sudo service postgresql restart 11
+- sudo apt-get update
+- sudo apt-get install libproj-dev proj-data proj-bin
+- sudo apt-get install libgeos-dev
+- sudo apt-get install gdal-bin
+- sudo service postgresql stop
+- sudo apt-get --yes remove postgresql-10-postgis-2.4
+- sudo apt install -yq --no-install-suggests --no-install-recommends postgresql-11-postgis-2.5-scripts
+  postgresql-11 postgresql-client-11 postgresql-11-postgis-2.5
+- sed -e 's/^port.*/port = 5432/' /etc/postgresql/11/main/postgresql.conf > postgresql.conf
+- sudo chown postgres postgresql.conf
+- sudo mv postgresql.conf /etc/postgresql/11/main
+- sudo cp /etc/postgresql/{10,11}/main/pg_hba.conf
+- sudo service postgresql restart 11
 dist: xenial
 addons:
-  postgresql: "11"
+  postgresql: '11'
 before_script:
-  - export PATH="/usr/lib/postgresql/11/bin:$PATH"
-  - psql -U postgres -c 'create database travis_ci_test'
-  - psql -U postgres -d travis_ci_test -c 'create extension postgis'
+- export PATH="/usr/lib/postgresql/11/bin:$PATH"
+- psql -U postgres -c 'create database travis_ci_test'
+- psql -U postgres -d travis_ci_test -c 'create extension postgis'
 language: python
 python:
-  - "3.7"
-install:
-  - pip install -r requirements.txt
-  - pip install coveralls
+- '3.7'
 script:
-  - python mysite/manage.py test visited_places_app
-  - coverage run --source=mysite/visited_places_app mysite/manage.py test visited_places_app
+- python mysite/manage.py test visited_places_app
+- coverage run --source=mysite/visited_places_app mysite/manage.py test visited_places_app
 after_success: coveralls
+deploy:
+  provider: heroku
+  api_key:
+    secure: ZjxLJhs5ilWVZOq8Yz1Kt6yn8uhR+GJrly/NQ4UXawK3OTODlOSFd/vmtPmCMGrb7GP3n7rYiDw0g+Jua/ocq9ThWGS/YKjnRSdzwYvnizH3I22JYIH83SyARYOsyiFmkgLPWjCI/0mlPo+5chkKxrlFHLD9eUV79N+Q4PYXTGoDmLdyizsHdmezJ/7lV7a8zOK2QY+godezmEn6fsSN+GqERpNYD2g9Ll2glYgWF+PBImc9o8QtAoErXHZpLQAdHspgtGbyApZMYc5Ecwlg6FE1ihtmbVjFKz7YShr/gwpe1N1pBaSX6xj+ViM/ueEqCwvF0JQZJ6A5w8ISEk1dT+bcCy9l3SaUMDQsw7oJ6fwYfOyu6zOw6+lWV92LalsX88eNdn9/HVrVU8t7SaQy1lxD15PWZTY0BWcDXZBQcRtsiJGV7vFW73HXmCS0oQYL7gjLpxJUPgE+zVI3KMrpW0K1EArmI2RRp2q9IsgIncVG50MvmL+mWL12WeorQNCoJgZnR3fx2U5SlVrh24jEvDCtbhtme1VOxynozB9UTl7cnmSFwv2emaj4WJDEV25nfHrDk/s1aQitnR0VwkTYSQBM6C0FR3T1HwLiWpUJFzZvGg4kD8Yj8gNFinaI03wqFGPO+pNzb/2l2zzaW7hwpCyL9dtp66oyw4H+jergr6s=
+  app: places-remember97
+  on:
+    branch: master
