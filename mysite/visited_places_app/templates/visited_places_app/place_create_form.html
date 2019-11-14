@@ -1,37 +1,50 @@
-<!DOCTYPE html>
+{% extends 'visited_places_app/base.html' %}
 {% load leaflet_tags %}
-<html>
-<head>
-    {% leaflet_js plugins="forms" %}
-    {% leaflet_css plugins="forms" %}
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title></title>
-</head>
-<body>
+{% load crispy_forms_tags %}
 
-    <form action="{% url 'create_place' %}" method="POST">
-        {% csrf_token %}
-      <fieldset>
-        <legend>Сохраните ваше любимое место</legend>
+{% block scripts %}
+  {% leaflet_js plugins="forms" %}
+  {% leaflet_css plugins="forms" %}
+{% endblock %}
 
-        <div class="form-group">
-          <label>{{ place_form.name.label }}</label>
-          {{ place_form.name }}
-        </div>
+{% block title %}
+  Создать воспоминание
+{% endblock %}
 
-        <div class="form-group">
-          <label>{{ place_form.geom.label }}</label>
-          {{ place_form.geom }}
-        </div>
+{% block content %}
 
-        <div class="form-group">
-          <label>{{ place_form.comment.label }}</label>
-          {{ place_form.comment }}
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Сохраните ваше любимое место</h5>
+            <form action="{% url 'create_place' %}" method="POST">
+              {% csrf_token %}
+              
+              {% for field in place_form %}
+                {% if field.errors %}
+                  <div class="form-group">
+                      {{ field|as_crispy_field }}
+                  </div>
+                  <div class="alert alert-danger" role="alert">
+                    {{ field.errors }}
+                  </div>
+                {% else %}
+                  <div class="form-group">
+                    {{ field|as_crispy_field }}
+                  </div>
+                {% endif %}
+              {% endfor %}
+
+              <button type="submit" class="btn btn-success">Сохранить</button>
+            </form>
+          </div>
         </div>
         
-        <button type="submit" class="btn btn-primary">Сохранить</button>
-      </fieldset>
-</form>
-    
-</body>
-</html>
+      </div>
+      <div class="col-6"></div>
+    </div>
+  </div>
+
+{% endblock %}

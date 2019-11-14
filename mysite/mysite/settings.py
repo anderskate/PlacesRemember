@@ -45,7 +45,10 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.facebook',
     'leaflet',
     'django.contrib.gis',
+    'crispy_forms',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -1,65 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% extends 'visited_places_app/base.html' %}
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+{% block title %}
+    Мои воспоминания
+{% endblock %}
 
-    <title></title>
-  </head>
-  <body>
-  	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-	  <a class="navbar-brand" href="#">Navbar</a>
-	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-	    <span class="navbar-toggler-icon"></span>
-	  </button>
-
-      <p>Привет, {{ user }}</p>
-
-	  <div class="collapse navbar-collapse" id="navbarColor01">
-	    <ul class="navbar-nav ml-auto">
-	      <li class="nav-item active">
-	        <a class="nav-link" href="{% url 'create_place' %}">Добавить воспоминание</a>
-	      </li>
-	      <!-- <li class="nav-item">
-	        <a class="nav-link" href="#">Features</a>
-	      </li>
-	      <li class="nav-item">
-	        <a class="nav-link" href="#">Pricing</a>
-	      </li> -->
-	      <li class="nav-item">
-	        <a class="nav-link" href="{% url 'account_logout' %}">Выйти</a>
-	      </li>
-
-	    </ul>
-	    
-	  </div>
-	</nav>
-
-    {% if not user_places %}
-        <div class="jumbotron">
-            <p>У вас нет ни одного воспоминания.</p>
-            <p class="lead">
-                <a class="btn btn-primary btn-lg" href="{% url 'create_place' %}" role="button">Добавить воспоминание</a>
-            </p>
+{% block content %}
+    <div class="carousel slide" data-ride="carousel" id="slides">
+        <ul class="carousel-indicators">
+            <li data-target="#slides" data-slide-to="0" class="active"></li>
+            <li data-target="#slides" data-slide-to="1"></li>
+            <li data-target="#slides" data-slide-to="2"></li>
+        </ul>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="/static/visited_places_app/images/slider1.jpg">
+                {% if not user_places %}
+                    <div class="carousel-caption">
+                        <h3>У вас нет ни одного воспоминания.</h3>
+                        <a href="{% url 'create_place' %}"><button type="button" class="btn btn-outline-light btn-lg">Добавить воспоминание</button></a>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="carousel-item">
+                <img src="/static/visited_places_app/images/slider2.jpg">
+            </div>
+            <div class="carousel-item">
+                <img src="/static/visited_places_app/images/slider3.jpg">
+            </div>
         </div>
-    {% else %}
-        <div class="list-group">
+    </div>
+    
+    {% if user_places %}
+        <div class="container-fluid">
+            <h1 class="text-center">Воспоминания</h1> 
+            <hr class="my-4">
             {% for place in user_places %}
-                <a href="{% url 'place_detail_url' place.id %}" class="list-group-item list-group-item-action flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">{{ place.name }}</h5>
+                <div class="row jumbotron">
+                    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-10">
+                        <h3>{{ place.name }}</h3>
+                     
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-2">
+                        <a href="{% url 'place_detail_url' place.id %}"><button class="btn btn-success btn-lg" type="button">Просмотреть</button></a>
+                    </div>
                 </div>
-                </a>
             {% endfor %}
-
         </div>
-
     {% endif %}
-	
-  </body>
-</html>
+{% endblock %}
+
 

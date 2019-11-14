@@ -1,62 +1,33 @@
-<!DOCTYPE html>
-{% load static %}
+{% extends 'visited_places_app/base.html' %}
 {% load leaflet_tags %}
-<html lang="en">
-  <head>
-    {% leaflet_js %}
-    {% leaflet_css %}
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+{% block scripts %}
+  {% leaflet_js %}
+  {% leaflet_css %}
+{% endblock %}
 
-    <title></title>
-        
-    </script>
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-      <a class="navbar-brand" href="#">Navbar</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+{% block title %}
+  Информация о месте
+{% endblock %}
 
-      <p>Привет, {{ user }}</p>
+{% block content %}
+  
+  <div class="card">
+    <h1>{{ place.name }}</h1>
+    <div class="card-img-top">
+      <script type="text/javascript">
+      function mark_location(map, options){
+          var raw_data = '{{ place.location.geojson|escapejs }}';
+          var data = JSON.parse(raw_data);
+          L.geoJSON(data).addTo(map);
+      }
+      </script>
+      {% leaflet_map "gis" callback="window.mark_location" %}
+    </div>
+    <div class="card-body">
+      <p class="card-text">{{ place.comment }}</p>
+    </div>
+  </div>
 
-      <div class="collapse navbar-collapse" id="navbarColor01">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="{% url 'create_place' %}">Добавить воспоминание</a>
-          </li>
-          <!-- <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
-          </li> -->
-          <li class="nav-item">
-            <a class="nav-link" href="#">Выйти</a>
-          </li>
+{% endblock %}
 
-        </ul>
-        
-      </div>
-    </nav>
-
-    {{ place.name }}
-
-    <script type="text/javascript">
-        function mark_location(map, options){
-            var raw_data = '{{ place.location.geojson|escapejs }}';
-            var data = JSON.parse(raw_data);
-            L.geoJSON(data).addTo(map);
-        }
-    </script>
-
-    {% leaflet_map "gis" callback="window.mark_location" %}
-    {{ place.comment }}
-    
-  </body>
-</html>
