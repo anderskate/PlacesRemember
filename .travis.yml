@@ -4,17 +4,16 @@ before_install:
   - sudo apt-get install libproj-dev proj-data proj-bin
   - sudo apt-get install libgeos-dev
   - sudo apt-get install gdal-bin
-  - sudo apt install postgis
 services:
   - postgresql
 addons:
-  postgresql: "10"
-  apt:
-    packages:
-    - postgresql-10
-    - postgresql-client-10
+  postgresql: "10.11"
+
 before_script:
-  - psql -c 'create database travis_ci_test;' -U postgres
+  - sudo apt-get -qq update
+  - sudo apt-get install -y postgresql-10.11-postgis-2.4
+  - psql -U postgres -c 'create database travis_ci_test'
+  - psql -U postgres -d travis_ci_test -c 'create extension postgis'
 language: python
 python:
   - "3.7"
