@@ -85,18 +85,12 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
+# Parse database configuration from $DATABASE_URL
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'travis_ci_test',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-        'USER': 'postgres',
-        'PASSWORD': '',
-    }
+    'default': dj_database_url.config(default=DATABASE_URL)
 }
-DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 # Password validation
