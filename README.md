@@ -12,9 +12,9 @@
 - Установите зависимости командой `pip install -r requirements.txt`
 - В приложении используется база данных PostgreSQL с PostGIS. Для правильной работы приложения, нужно установить
 геопространственные библиотеки. Подробнее, по ссылке на документацию Django: https://bit.ly/2rIhrfY
-- Для авторизации пользователей с помощью API Facebook, нужно создать приложение на сайте "Facebook для разработчиков", по ссылке: https://developers.facebook.com/. После создания приложения, нужно его добавить в интерфейс "Django admin", по вкладке "Social applications".
 - Перенесите миграции в БД командой `python3 manage.py migrate`
-- Запустите сервер командой `python3 manage.py runserver`
+- Запустите сервер командой `python3 manage.py runserver` и перейдите по ссылке `http://localhost:8000/admin/`
+- Для авторизации пользователей с помощью API Facebook, нужно создать приложение на сайте "Facebook для разработчиков", по ссылке: https://developers.facebook.com/. После создания приложения, нужно его добавить в интерфейс "Django admin", по вкладке "Social applications".
 
 ## Переменные окружения
 
