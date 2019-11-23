@@ -1,6 +1,7 @@
 # Places Remember
 
 [![Coverage Status](https://coveralls.io/repos/github/anderskate/PlacesRemember/badge.svg?branch=master)](https://coveralls.io/github/anderskate/PlacesRemember?branch=master)
+[![Build Status](https://travis-ci.org/anderskate/PlacesRemember.svg?branch=master)](https://travis-ci.org/anderskate/PlacesRemember)
 
 Веб-приложение, с помощью которого люди могут хранить свои впечатления о посещенных местах.
 
